@@ -1,0 +1,247 @@
+/* Global Styles */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #1e1e1e;
+  color: #f0f0f0;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+/* Form Styles */
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+form input,
+form select,
+form button {
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  border: none;
+  min-width: 150px;
+}
+
+form button {
+  background-color: #27ae60;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+form button:hover {
+  background-color: #1e8449;
+}
+
+/* Formation Container */
+#formationContainer {
+  max-width: 1000px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Field */
+.field {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  background-color: #0b6623;
+  border: 4px solid white;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+/* Goals */
+.goal {
+  position: absolute;
+  width: 10px;
+  height: 80px;
+  background: #fff;
+  top: calc(50% - 40px);
+}
+.goal.left {
+  left: 0;
+}
+.goal.right {
+  right: 0;
+}
+
+/* D-boxes */
+.dbox {
+  position: absolute;
+  width: 100px;
+  height: 180px;
+  border: 2px solid white;
+  top: calc(50% - 90px);
+}
+.dbox.left {
+  left: 0;
+}
+.dbox.right {
+  right: 0;
+}
+
+/* Midline and Center Circle */
+.midline {
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  background: white;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.center-circle {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: 2px solid white;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Player Card */
+.player {
+  position: absolute;
+  width: 90px;
+  padding: 20px 5px 5px 5px; /* Add more top padding */
+  text-align: center;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+  z-index: 2;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.player p {
+  margin: 2px 0;
+  font-size: 14px;
+  color: #000;
+}
+.player .country {
+  font-size: 1.4rem;
+}
+
+.player.striker {
+  background-color: #e74c3c;
+}
+.player.midfielder {
+  background-color: #2980b9;
+}
+.player.defender {
+  background-color: #27ae60;
+}
+.player.goalkeeper {
+  background-color: #bdb711;
+}
+
+/* Delete Button */
+.player .delete-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  line-height: 16px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 10;
+  padding: 0;
+}
+.player .delete-btn:hover {
+  background-color: #ff4d4d;
+}
+
+/* Bench Styling */
+.bench {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  background-color: #333;
+  padding: 15px;
+  width: 100%;
+  border: 3px solid white;
+  border-radius: 10px;
+  min-height: 110px;
+}
+.bench .player {
+  position: relative !important;
+  left: unset !important;
+  top: unset !important;
+}
+
+/* Export Button */
+#exportBtn {
+  margin-top: 30px;
+  padding: 12px 24px;
+  background-color: #00b894;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+#exportBtn:hover {
+  background-color: #019875;
+}
+
+#formationContainer h2 {
+  color: #019875;
+}
+
+
+@media (max-width: 768px) {
+  form {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .player {
+    width: 70px;
+    padding: 18px 4px 4px 4px;
+    font-size: 12px;
+  }
+
+  .player .country {
+    font-size: 1.2rem;
+  }
+
+  .field {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+  }
+
+  .bench {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  #exportBtn {
+    width: 90%;
+  }
+}

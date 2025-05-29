@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Football Formation Planner</title>
+    <link rel="stylesheet" href="style.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+      integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+  <body>
+    <h1>⚽ Tactical Formation Planner</h1>
+
+    <form action="" id="playerForm">
+      <input
+        type="text"
+        id="playerName"
+        placeholder="Player Name"
+        class="name"
+        required
+      />
+
+      <select id="playerPosition" required class="position">
+        <option value="">🎯 Select Position</option>
+        <option value="Striker">Striker</option>
+        <option value="Midfielder">Midfielder</option>
+        <option value="Defender">Defender</option>
+        <option value="Goalkeeper">Goalkeeper</option>
+      </select>
+
+      <select id="playerCountry" required class="country">
+        <option value="">🌍 Select Country</option>
+        <option value="🇧🇩">🇧🇩 Bangladesh</option>
+        <option value="🇮🇳">🇮🇳 India</option>
+        <option value="🇵🇰">🇵🇰 Pakistan</option>
+        <option value="🇳🇵">🇳🇵 Nepal</option>
+        <option value="🇻🇳">🇻🇳 Vietnam</option>
+        <option value="🇹🇷">🇹🇷 Turkey</option>
+        <option value="🇲🇲">🇲🇲 Myanmar</option>
+      </select>
+
+      <button type="submit">Add Player</button>
+    </form>
+
+    <div id="formationContainer">
+      <div class="field" id="field">
+        <!-- goals  -->
+        <div class="goal left"></div>
+        <div class="goal right"></div>
+
+        <!-- D-boxes -->
+        <div class="dbox left"></div>
+        <div class="dbox right"></div>
+
+        <!-- Midline -->
+        <div class="midline"></div>
+
+        <!-- Center circle -->
+        <div class="center-circle"></div>
+      </div>
+
+      <h2>🪑 Bench / Substitutes</h2>
+      <div class="bench" id="bench"></div>
+    </div>
+    <button id="exportBtn">📷 Export Formation as Image</button>
+
+    <script src="index.js"></script>
+  </body>
+</html>
