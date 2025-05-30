@@ -93,35 +93,41 @@ function createPlayerElement(player) {
 
 // player dragging functionality
 function makeDraggable(playerEl) {
-  playerEl.addEventListener('mousedown', function (event) {
+  function stratDrag(event, isTouch = false) {
     if (event.target.classList.contains('delete-btn')) return;
-
     isDragging = true;
-    offsetX = event.offsetX;
-    offsetY = event.offsetY;
+
+    const point = isTouch ? event.touches[0] : event;
+    const rect = playerEl.getBoundingClientRect();
+    offsetX = point.clientX - rect.left;
+    offsetY = point.clientY - rect.top;
     playerEl.style.zIndex = 1000;
 
-    // start tracking movement
-    function handleMouseMove(event) {
+    function move(event) {
+      const point = isTouch ? event.touches[0] : event;
       const containerRect = formationContainer.getBoundingClientRect();
-
-      const x = event.clientX - containerRect.left - offsetX;
-      const y = event.clientY - containerRect.top - offsetY;
+      const x = point.clientX - containerRect.left - offsetX;
+      const y = point.clientY - containerRect.top - offsetY;
 
       playerEl.style.position = 'absolute';
-      // set position
       playerEl.style.left = `${x}px`;
       playerEl.style.top = `${y}px`;
     }
-    function handleMouseUp(event) {
+
+    function end(event) {
       isDragging = false;
       playerEl.style.zIndex = 1;
+      const point = isTouch
+        ? event.changedTouches
+          ? event.changedTouches[0]
+          : event.touches[0]
+        : event;
 
       const fieldRect = field.getBoundingClientRect();
       const benchRect = bench.getBoundingClientRect();
 
-      const mouseX = event.clientX;
-      const mouseY = event.clientY;
+      const mouseX = point.clientX;
+      const mouseY = point.clientY;
 
       const id = getPlayerId(playerEl);
 
@@ -143,9 +149,7 @@ function makeDraggable(playerEl) {
             break;
           }
         }
-      }
-      // Drop to field
-      else if (
+      } else if (
         mouseX >= fieldRect.left &&
         mouseX <= fieldRect.right &&
         mouseY >= fieldRect.top &&
@@ -180,15 +184,34 @@ function makeDraggable(playerEl) {
         // saveToStorage();
       }
 
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
+      if (isTouch) {
+        document.removeEventListener('touchmove', move);
+        document.removeEventListener('touchend', end);
+      } else {
+        document.removeEventListener('mousemove', move);
+        document.removeEventListener('mouseup', end);
+      }
       saveToStorage();
     }
-
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-    event.preventDefault();
+    if (isTouch) {
+      document.addEventListener('touchmove', move);
+      document.addEventListener('touchend', end);
+    } else {
+      document.addEventListener('mousemove', move);
+      document.addEventListener('mouseup', end);
+    }
+    if (!isTouch) event.preventDefault();
+  }
+  playerEl.addEventListener('mousedown', function (event) {
+    stratDrag(event, false);
   });
+  playerEl.addEventListener(
+    'touchstart',
+    function (event) {
+      stratDrag(event, false);
+    },
+    { passive: false }
+  );
 }
 
 // player delete functionality
@@ -218,3 +241,6 @@ function saveToStorage() {
 function getPlayerId(playerEl) {
   return parseInt(playerEl.getAttribute('data-id'));
 }
+
+// mousedown, mousemove, mouseup
+// touchstart, touchmove, touchend
