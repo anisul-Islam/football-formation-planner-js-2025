@@ -81,7 +81,6 @@ function createPlayerElement(player) {
   makeDraggable(playerEl);
   addDeleteButton(playerEl);
 
-  console.log(player.location);
   if (player.location === 'field') {
     field.appendChild(playerEl);
   } else {
@@ -208,7 +207,7 @@ function makeDraggable(playerEl) {
   playerEl.addEventListener(
     'touchstart',
     function (event) {
-      stratDrag(event, false);
+      stratDrag(event, true);
     },
     { passive: false }
   );

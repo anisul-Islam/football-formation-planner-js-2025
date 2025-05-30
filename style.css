@@ -124,6 +124,7 @@ form button:hover {
   z-index: 2;
   box-sizing: border-box;
   overflow: hidden;
+  touch-action: none;
 }
 
 .player p {
@@ -208,7 +209,6 @@ form button:hover {
 #formationContainer h2 {
   color: #019875;
 }
-
 
 @media (max-width: 768px) {
   form {
