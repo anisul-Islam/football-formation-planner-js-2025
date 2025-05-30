@@ -210,6 +210,11 @@ form button:hover {
   color: #019875;
 }
 
+.bench.hovered {
+  background-color: #444;
+  outline: 3px dashed #f39c12;
+}
+
 @media (max-width: 768px) {
   form {
     flex-direction: column;

@@ -1,4 +1,4 @@
-//@ts-nocheck
+// @ts-nocheck
 const field = document.getElementById('field');
 const playerFormElement = document.getElementById('playerForm');
 const exportBtn = document.getElementById('exportBtn');
@@ -11,14 +11,12 @@ let offsetX = 0,
 
 let playersData = JSON.parse(localStorage.getItem('players')) || [];
 
-// load saved players on page load
+// Load saved players on page load
 window.addEventListener('DOMContentLoaded', function () {
-  for (let index = 0; index < playersData.length; index++) {
-    createPlayerElement(playersData[index]);
-  }
+  playersData.forEach(createPlayerElement);
 });
 
-// export image functionality
+// Export as image
 exportBtn.addEventListener('click', function () {
   html2canvas(formationContainer).then((canvas) => {
     const link = document.createElement('a');
@@ -28,56 +26,48 @@ exportBtn.addEventListener('click', function () {
   });
 });
 
-const players = document.querySelectorAll('.player');
-for (let index = 0; index < players.length; index++) {
-  makeDraggable(players[index]);
-  addDeleteButton(players[index]);
-}
-
-// add new player functionality
+// Add new player
 playerFormElement.addEventListener('submit', function (event) {
   event.preventDefault();
   const name = document.getElementById('playerName').value.trim();
-  if (!name) return alert('Player name can not be empty');
   const position = document.getElementById('playerPosition').value;
   const country = document.getElementById('playerCountry').value;
-  // const imageFile = document.getElementById('playerImage').files[0];
+  if (!name || !position || !country) return alert('All fields required');
 
   const newPlayer = {
     id: Date.now(),
     name,
     position,
     country,
-    x: 0,
-    y: 0,
-    location: 'bench', // field or bench
+    xPercent: 0,
+    yPercent: 0,
+    location: 'bench',
   };
   playersData.push(newPlayer);
   saveToStorage();
-
   createPlayerElement(newPlayer);
   playerFormElement.reset();
 });
 
-// Create Player DOM
+// Create player element
 function createPlayerElement(player) {
   const playerEl = document.createElement('div');
-  playerEl.className = 'player';
-  playerEl.classList.add(`${player.position.toLowerCase()}`);
+  playerEl.className = `player ${player.position.toLowerCase()}`;
   playerEl.setAttribute('data-id', player.id);
 
   if (player.location === 'field') {
     playerEl.style.position = 'absolute';
-    playerEl.style.left = `${player.x}px`;
-    playerEl.style.top = `${player.y}px`;
+    playerEl.style.left = `${player.xPercent}%`;
+    playerEl.style.top = `${player.yPercent}%`;
   }
 
   playerEl.innerHTML = `
-  <p><strong>${player.name}</strong></p>
-  <p>(${player.position})</p>
-  <p class="country">${player.country}</p>
-  <button class="delete-btn">❌</button>
+    <p><strong>${player.name}</strong></p>
+    <p>(${player.position})</p>
+    <p class="country">${player.country}</p>
+    <button class="delete-btn">❌</button>
   `;
+
   makeDraggable(playerEl);
   addDeleteButton(playerEl);
 
@@ -90,9 +80,9 @@ function createPlayerElement(player) {
   return playerEl;
 }
 
-// player dragging functionality
+// Make player draggable (mouse + touch)
 function makeDraggable(playerEl) {
-  function stratDrag(event, isTouch = false) {
+  function startDrag(event, isTouch = false) {
     if (event.target.classList.contains('delete-btn')) return;
     isDragging = true;
 
@@ -104,16 +94,30 @@ function makeDraggable(playerEl) {
 
     function move(event) {
       const point = isTouch ? event.touches[0] : event;
-      const containerRect = formationContainer.getBoundingClientRect();
-      const x = point.clientX - containerRect.left - offsetX;
-      const y = point.clientY - containerRect.top - offsetY;
+      const containerRect = field.getBoundingClientRect();
 
-      playerEl.style.position = 'absolute';
-      playerEl.style.left = `${x}px`;
-      playerEl.style.top = `${y}px`;
+      let x = point.clientX - containerRect.left - offsetX;
+      let y = point.clientY - containerRect.top - offsetY;
+
+      x = Math.max(0, Math.min(x, field.clientWidth - playerEl.offsetWidth));
+      y = Math.max(0, Math.min(y, field.clientHeight - playerEl.offsetHeight));
+
+      const xPercent = (x / field.clientWidth) * 100;
+      const yPercent = (y / field.clientHeight) * 100;
+
+      playerEl.style.left = `${xPercent}%`;
+      playerEl.style.top = `${yPercent}%`;
+
+      const benchRect = bench.getBoundingClientRect();
+      if (point.clientY >= benchRect.top && point.clientY <= benchRect.bottom) {
+        bench.classList.add('hovered');
+      } else {
+        bench.classList.remove('hovered');
+      }
     }
 
     function end(event) {
+      bench.classList.remove('hovered');
       isDragging = false;
       playerEl.style.zIndex = 1;
       const point = isTouch
@@ -124,11 +128,11 @@ function makeDraggable(playerEl) {
 
       const fieldRect = field.getBoundingClientRect();
       const benchRect = bench.getBoundingClientRect();
-
       const mouseX = point.clientX;
       const mouseY = point.clientY;
 
       const id = getPlayerId(playerEl);
+      const playerIndex = playersData.findIndex((p) => p.id === id);
 
       if (
         mouseX >= benchRect.left &&
@@ -136,51 +140,37 @@ function makeDraggable(playerEl) {
         mouseY >= benchRect.top &&
         mouseY <= benchRect.bottom
       ) {
-        // Move to Bench
         playerEl.style.position = 'relative';
         playerEl.style.left = '';
         playerEl.style.top = '';
         bench.appendChild(playerEl);
-
-        for (let index = 0; index < playersData.length; index++) {
-          if (playersData[index].id === id) {
-            playersData[index].location = 'bench';
-            break;
-          }
-        }
+        playersData[playerIndex].location = 'bench';
       } else if (
         mouseX >= fieldRect.left &&
         mouseX <= fieldRect.right &&
         mouseY >= fieldRect.top &&
         mouseY <= fieldRect.bottom
       ) {
-        //    const fieldRect = field.getBoundingClientRect();
         let x = mouseX - fieldRect.left - offsetX;
         let y = mouseY - fieldRect.top - offsetY;
 
-        const clampedX = Math.max(
-          0,
-          Math.min(x, field.clientWidth - playerEl.offsetWidth)
-        );
-        const clampedY = Math.max(
+        x = Math.max(0, Math.min(x, field.clientWidth - playerEl.offsetWidth));
+        y = Math.max(
           0,
           Math.min(y, field.clientHeight - playerEl.offsetHeight)
         );
 
-        playerEl.style.left = '${clampedX}px';
-        playerEl.style.top = '${clampedY}px';
+        const xPercent = (x / field.clientWidth) * 100;
+        const yPercent = (y / field.clientHeight) * 100;
+
+        playerEl.style.left = `${xPercent}%`;
+        playerEl.style.top = `${yPercent}%`;
         playerEl.style.position = 'absolute';
         field.appendChild(playerEl);
 
-        for (let index = 0; index < playersData.length; index++) {
-          if (playersData[index].id === id) {
-            playersData[index].x = clampedX;
-            playersData[index].y = clampedY;
-            playersData[index].location = 'field';
-            break;
-          }
-        }
-        // saveToStorage();
+        playersData[playerIndex].xPercent = xPercent;
+        playersData[playerIndex].yPercent = yPercent;
+        playersData[playerIndex].location = 'field';
       }
 
       if (isTouch) {
@@ -190,56 +180,43 @@ function makeDraggable(playerEl) {
         document.removeEventListener('mousemove', move);
         document.removeEventListener('mouseup', end);
       }
+
       saveToStorage();
     }
+
     if (isTouch) {
-      document.addEventListener('touchmove', move);
+      document.addEventListener('touchmove', move, { passive: false });
       document.addEventListener('touchend', end);
     } else {
       document.addEventListener('mousemove', move);
       document.addEventListener('mouseup', end);
     }
+
     if (!isTouch) event.preventDefault();
   }
-  playerEl.addEventListener('mousedown', function (event) {
-    stratDrag(event, false);
+
+  playerEl.addEventListener('mousedown', (e) => startDrag(e, false));
+  playerEl.addEventListener('touchstart', (e) => startDrag(e, true), {
+    passive: false,
   });
-  playerEl.addEventListener(
-    'touchstart',
-    function (event) {
-      stratDrag(event, true);
-    },
-    { passive: false }
-  );
 }
 
-// player delete functionality
+// Delete player
 function addDeleteButton(playerEl) {
   const deleteBtn = playerEl.querySelector('.delete-btn');
-  if (deleteBtn) {
-    deleteBtn.addEventListener('click', function () {
-      const id = parseInt(playerEl.getAttribute('data-id'));
-      playerEl.remove();
-
-      for (let index = 0; index < playersData.length; index++) {
-        if (playersData[index].id === id) {
-          playersData.splice(index, 1);
-          break;
-        }
-      }
-      saveToStorage();
-    });
-  }
+  deleteBtn?.addEventListener('click', () => {
+    const id = getPlayerId(playerEl);
+    playerEl.remove();
+    playersData = playersData.filter((p) => p.id !== id);
+    saveToStorage();
+  });
 }
 
-// save to localStorage
-function saveToStorage() {
-  localStorage.setItem('players', JSON.stringify(playersData));
-}
-
+// Helpers
 function getPlayerId(playerEl) {
   return parseInt(playerEl.getAttribute('data-id'));
 }
 
-// mousedown, mousemove, mouseup
-// touchstart, touchmove, touchend
+function saveToStorage() {
+  localStorage.setItem('players', JSON.stringify(playersData));
+}
