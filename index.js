@@ -220,3 +220,20 @@ function getPlayerId(playerEl) {
 function saveToStorage() {
   localStorage.setItem('players', JSON.stringify(playersData));
 }
+
+// theme changer feature
+const themeToggle = document.getElementById('themeToggle');
+
+// Load saved theme
+if (localStorage.getItem('theme') === 'light') {
+  document.body.classList.add('light-theme');
+  themeToggle.textContent = '🌑 Dark Mode';
+}
+
+// Toggle on click
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('light-theme');
+  const isLight = document.body.classList.contains('light-theme');
+  themeToggle.textContent = isLight ? '🌑 Dark Mode' : '🌙 Light Mode';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+});

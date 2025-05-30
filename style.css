@@ -1,8 +1,35 @@
-/* Global Styles */
+/* ================================
+   Root Theme Variables
+================================ */
+:root {
+  --bg: #1e1e1e;
+  --text: #f0f0f0;
+  --card: rgba(255, 255, 255, 0.95);
+  --bench: #333;
+  --button: #00b894;
+  --button-hover: #019875;
+  --footer: #121212;
+  --highlight: #00b894;
+}
+
+.light-theme {
+  --bg: #f5f5f5;
+  --text: #121212;
+  --card: #ffffff;
+  --bench: #e0e0e0;
+  --button: #2980b9;
+  --button-hover: #1c5d99;
+  --footer: #eaeaea;
+  --highlight: #2980b9;
+}
+
+/* ================================
+   Global Styles
+================================ */
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: #1e1e1e;
-  color: #f0f0f0;
+  background: var(--bg);
+  color: var(--text);
   margin: 0;
   padding: 20px;
   text-align: center;
@@ -15,7 +42,9 @@ h1 {
   font-size: 2rem;
 }
 
-/* Form Styles */
+/* ================================
+   Form Styles
+================================ */
 form {
   display: flex;
   flex-wrap: wrap;
@@ -23,7 +52,6 @@ form {
   justify-content: center;
   margin-bottom: 20px;
 }
-
 form input,
 form select,
 form button {
@@ -33,19 +61,20 @@ form button {
   border: none;
   min-width: 150px;
 }
-
 form button {
-  background-color: #27ae60;
+  background-color: var(--button);
   color: white;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 form button:hover {
-  background-color: #1e8449;
+  background-color: var(--button-hover);
 }
 
-/* Formation Container */
+/* ================================
+   Formation Container
+================================ */
 #formationContainer {
   max-width: 1000px;
   margin: auto;
@@ -53,8 +82,13 @@ form button:hover {
   flex-direction: column;
   align-items: center;
 }
+#formationContainer h2 {
+  color: var(--highlight);
+}
 
-/* Field */
+/* ================================
+   Field Layout
+================================ */
 .field {
   position: relative;
   width: 100%;
@@ -65,8 +99,6 @@ form button:hover {
   overflow: hidden;
   margin-bottom: 30px;
 }
-
-/* Goals & D-Boxes */
 .goal,
 .dbox {
   position: absolute;
@@ -83,7 +115,6 @@ form button:hover {
 .goal.right {
   right: 0;
 }
-
 .dbox {
   width: 100px;
   height: 180px;
@@ -96,8 +127,6 @@ form button:hover {
 .dbox.right {
   right: 0;
 }
-
-/* Midline and Center Circle */
 .midline {
   position: absolute;
   width: 2px;
@@ -117,19 +146,20 @@ form button:hover {
   transform: translate(-50%, -50%);
 }
 
-/* Player Card */
+/* ================================
+   Player Cards
+================================ */
 .player {
   position: absolute;
   width: 90px;
   padding: 20px 5px 5px;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--card);
   border-radius: 10px;
   text-align: center;
   z-index: 2;
   box-sizing: border-box;
   touch-action: none;
 }
-
 .player p {
   margin: 2px 0;
   font-size: 14px;
@@ -138,8 +168,6 @@ form button:hover {
 .player .country {
   font-size: 1.4rem;
 }
-
-/* Position Colors */
 .player.striker {
   background-color: #e74c3c;
 }
@@ -153,7 +181,9 @@ form button:hover {
   background-color: #bdb711;
 }
 
-/* Delete Button */
+/* ================================
+   Delete Button
+================================ */
 .player .delete-btn {
   position: absolute;
   top: 4px;
@@ -177,13 +207,15 @@ form button:hover {
   background-color: #ff4d4d;
 }
 
-/* Bench Area */
+/* ================================
+   Bench Styling
+================================ */
 .bench {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
-  background-color: #333;
+  background-color: var(--bench);
   padding: 15px;
   width: 100%;
   border: 3px solid white;
@@ -195,18 +227,18 @@ form button:hover {
   left: unset !important;
   top: unset !important;
 }
-
-/* Hover Effect */
 .bench.hovered {
   background-color: #444;
   outline: 3px dashed #f39c12;
 }
 
-/* Export Button */
+/* ================================
+   Export Button
+================================ */
 #exportBtn {
   margin-top: 30px;
   padding: 12px 24px;
-  background-color: #00b894;
+  background-color: var(--button);
   color: white;
   border: none;
   font-size: 16px;
@@ -215,17 +247,15 @@ form button:hover {
   transition: background-color 0.3s ease;
 }
 #exportBtn:hover {
-  background-color: #019875;
+  background-color: var(--button-hover);
 }
 
-#formationContainer h2 {
-  color: #019875;
-}
-
-/* Footer */
+/* ================================
+   Footer
+================================ */
 .footer {
-  background-color: #121212;
-  color: #ccc;
+  background-color: var(--footer);
+  color: var(--text);
   padding: 20px 0;
   margin-top: 40px;
   border-top: 1px solid #333;
@@ -251,13 +281,37 @@ form button:hover {
   color: #ccc;
   font-size: 20px;
   transition: color 0.3s ease, transform 0.3s ease;
+  color: green;
 }
 .social-icons a:hover {
-  color: #00b894;
+  color: var(--highlight);
   transform: scale(1.2);
 }
 
-/* Responsive */
+/* ================================
+   Theme Toggle Button
+================================ */
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: var(--button);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  z-index: 999;
+  transition: background 0.3s ease;
+}
+.theme-toggle:hover {
+  background-color: var(--button-hover);
+}
+
+/* ================================
+   Responsive Styles
+================================ */
 @media (max-width: 768px) {
   form {
     flex-direction: column;
