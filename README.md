@@ -53,7 +53,7 @@ This is a web-based tactical formation planner that allows users to design footb
 
 ## 📸 Screenshot
 
-> Add a screenshot of your field and bench area here after exporting the image.
+![formation (6)](https://github.com/user-attachments/assets/eaabcaae-a97e-4995-ac24-7a8080c9df37)
 
 ---
 
