@@ -6,6 +6,8 @@ body {
   margin: 0;
   padding: 20px;
   text-align: center;
+  overflow-y: auto;
+  min-height: 100vh;
 }
 
 h1 {
@@ -37,6 +39,7 @@ form button {
   color: white;
   font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 form button:hover {
   background-color: #1e8449;
@@ -63,12 +66,15 @@ form button:hover {
   margin-bottom: 30px;
 }
 
-/* Goals */
-.goal {
+/* Goals & D-Boxes */
+.goal,
+.dbox {
   position: absolute;
+  background: #fff;
+}
+.goal {
   width: 10px;
   height: 80px;
-  background: #fff;
   top: calc(50% - 40px);
 }
 .goal.left {
@@ -78,9 +84,7 @@ form button:hover {
   right: 0;
 }
 
-/* D-boxes */
 .dbox {
-  position: absolute;
   width: 100px;
   height: 180px;
   border: 2px solid white;
@@ -117,13 +121,12 @@ form button:hover {
 .player {
   position: absolute;
   width: 90px;
-  padding: 20px 5px 5px 5px; /* Add more top padding */
-  text-align: center;
+  padding: 20px 5px 5px;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 10px;
+  text-align: center;
   z-index: 2;
   box-sizing: border-box;
-  overflow: hidden;
   touch-action: none;
 }
 
@@ -136,6 +139,7 @@ form button:hover {
   font-size: 1.4rem;
 }
 
+/* Position Colors */
 .player.striker {
   background-color: #e74c3c;
 }
@@ -165,14 +169,15 @@ form button:hover {
   line-height: 16px;
   text-align: center;
   cursor: pointer;
-  z-index: 10;
   padding: 0;
+  z-index: 10;
+  transition: background 0.2s ease;
 }
 .player .delete-btn:hover {
   background-color: #ff4d4d;
 }
 
-/* Bench Styling */
+/* Bench Area */
 .bench {
   display: flex;
   flex-wrap: wrap;
@@ -191,6 +196,12 @@ form button:hover {
   top: unset !important;
 }
 
+/* Hover Effect */
+.bench.hovered {
+  background-color: #444;
+  outline: 3px dashed #f39c12;
+}
+
 /* Export Button */
 #exportBtn {
   margin-top: 30px;
@@ -201,6 +212,7 @@ form button:hover {
   font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 #exportBtn:hover {
   background-color: #019875;
@@ -210,11 +222,42 @@ form button:hover {
   color: #019875;
 }
 
-.bench.hovered {
-  background-color: #444;
-  outline: 3px dashed #f39c12;
+/* Footer */
+.footer {
+  background-color: #121212;
+  color: #ccc;
+  padding: 20px 0;
+  margin-top: 40px;
+  border-top: 1px solid #333;
+  font-size: 14px;
+}
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+  flex-wrap: wrap;
+}
+.footer-content p {
+  margin: 0;
+}
+.social-icons {
+  display: flex;
+  gap: 15px;
+}
+.social-icons a {
+  color: #ccc;
+  font-size: 20px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+.social-icons a:hover {
+  color: #00b894;
+  transform: scale(1.2);
 }
 
+/* Responsive */
 @media (max-width: 768px) {
   form {
     flex-direction: column;
@@ -223,7 +266,7 @@ form button:hover {
 
   .player {
     width: 70px;
-    padding: 18px 4px 4px 4px;
+    padding: 18px 4px 4px;
     font-size: 12px;
   }
 
