@@ -327,32 +327,74 @@ form button:hover {
     align-items: center;
   }
 
-  .player {
-    width: 70px;
-    padding: 18px 4px 4px;
-    font-size: 12px;
-  }
-
-  .player .country {
-    font-size: 1.2rem;
+  h1 {
+    font-size: 1.5rem;
   }
 
   .field {
     width: 100%;
     aspect-ratio: 3 / 2;
+    border-width: 2px;
+  }
+
+  .goal {
+    width: 6px;
+    height: 50px;
+    top: calc(50% - 25px);
+  }
+
+  .dbox {
+    width: 60px;
+    height: 120px;
+    top: calc(50% - 60px);
+    border-width: 1px;
+  }
+
+  .center-circle {
+    width: 60px;
+    height: 60px;
+    border-width: 1px;
+  }
+
+  .midline {
+    width: 1px;
+  }
+
+  .player {
+    width: 60px;
+    padding: 12px 2px 2px;
+    font-size: 11px;
+  }
+
+  .player p {
+    font-size: 11px;
+    margin: 1px 0;
+  }
+
+  .player .country {
+    font-size: 1rem;
+  }
+
+  .player .position {
+    display: none;
+  }
+
+  .delete-btn {
+    width: 14px;
+    height: 14px;
+    font-size: 10px;
+    top: 2px;
+    right: 2px;
   }
 
   .bench {
-    flex-direction: row;
-    flex-wrap: wrap;
     padding: 10px;
-  }
-
-  h1 {
-    font-size: 1.5rem;
+    border-width: 2px;
   }
 
   #exportBtn {
     width: fit-content;
+    font-size: 13px;
+    padding: 8px 16px;
   }
 }
