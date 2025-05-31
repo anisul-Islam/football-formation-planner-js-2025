@@ -344,7 +344,7 @@ form button:hover {
   }
 
   .dbox {
-    width: 60px;
+    width: 30px;
     height: 120px;
     top: calc(50% - 60px);
     border-width: 1px;
