@@ -30,13 +30,14 @@ html,
 body {
   height: 100%;
   margin: 0;
-  padding: 0;
+  padding: 0rem;
   display: flex;
   flex-direction: column;
   background: var(--bg);
   color: var(--text);
   font-family: 'Segoe UI', sans-serif;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 /* ================================
