@@ -101,7 +101,7 @@ form button:hover {
 .field {
   position: relative;
   width: 100%;
-  aspect-ratio: 2 / 1;
+  aspect-ratio: 1 / 0.8;
   background-color: #0b6623;
   border: 4px solid white;
   border-radius: 12px;
